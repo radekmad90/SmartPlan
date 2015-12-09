@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="smartplan"/>
+  <table-filter match-name="zajecia"/>
+  <table-filter match-name="godziny"/>
+  <table-filter match-name="rok_kierunek"/>
+  <table-filter match-name="plany"/>
+  <table-filter match-name="przedmioty"/>
+  <table-filter match-name="zjazdy"/>
+</hibernate-reverse-engineering>

@@ -16,7 +16,7 @@
 	</servlet-mapping>
 	<context-param>
 		<param-name>javax.ws.rs.Application</param-name>
-		<param-value>com.mjtoolbox.ws.ApplicationConfiguration</param-value>
+		<param-value>pl.pcz.wimii.zpi.smartplan.ws.ApplicationConfiguration</param-value>
 	</context-param>
 	<context-param>
 		<param-name>resteasy.servlet.mapping.prefix</param-name>
