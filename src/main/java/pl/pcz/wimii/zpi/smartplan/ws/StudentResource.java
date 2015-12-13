@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import pl.pcz.wimii.zpi.smartplan.entities.Godziny;
 import pl.pcz.wimii.zpi.smartplan.entities.services.GodzinyService;
+import pl.pcz.wimii.zpi.smartplan.parser.Parser;
 
 @Path("/json")
 public class StudentResource {
@@ -38,6 +39,9 @@ public class StudentResource {
     public Response getStudentList() {
         StudentWrapper wrapper = new StudentWrapper();
         students.add(new Student());
+        Parser parser = new Parser();
+        parser.parse("http://wimii.pcz.pl/download/plan/studia_niestacjonarne/o21f.html","2015/2016" , 1 , "Informatyka", "ABiBD", 2, 1,  null, null);
+        
         wrapper.setList(students);
         List<Godziny> godziny = GodzinyService.getGodziny();
         logger.error(godziny.get(0).getGodz());
