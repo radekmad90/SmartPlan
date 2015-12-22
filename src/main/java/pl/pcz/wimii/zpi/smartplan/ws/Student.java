@@ -1,69 +1,29 @@
 package pl.pcz.wimii.zpi.smartplan.ws;
 
-
+import pl.pcz.wimii.zpi.smartplan.json.beans.ZajeciaJSON;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import pl.pcz.wimii.zpi.smartplan.entities.RokKierunek;
+import pl.pcz.wimii.zpi.smartplan.entities.Zajecia;
 
-@XmlRootElement(name="student")
-public class Student implements Serializable{
+@XmlRootElement(name = "plan")
+public class Student implements Serializable {
 
+    private static final long serialVersionUID = 6718071273578435756L;
 
-	private static final long serialVersionUID = 6718071273578435756L;
-	
-	private int id;
-	private String name;
-	private int age;
-	
-	public Student() {
-	}
-	
-	
+    private Integer id;
+    private RokKierunek rokKierunek;
+    private String planNazw;
+    private Date dataPublikacji;
+    private Date dataDodania;
+    private int widoczny;
+    private Integer rok;
+    private String kierunek;
+    private Set<ZajeciaJSON> zajecias = new HashSet<>(0);
 
-	public Student(int id, String name, int age) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.age = age;
-	}
-
-
-	@XmlElement
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	@XmlElement
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@XmlElement
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-
-
-	@Override
-	public String toString() {
-		return "Student [id=" + id + ", name=" + name + ", age=" + age + "]";
-	}
-
-	
-	
-	
 }

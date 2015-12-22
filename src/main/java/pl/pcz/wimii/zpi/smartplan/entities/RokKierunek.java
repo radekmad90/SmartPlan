@@ -1,13 +1,14 @@
 package pl.pcz.wimii.zpi.smartplan.entities;
 // Generated 2015-12-07 21:04:58 by Hibernate Tools 4.3.1
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -27,8 +28,7 @@ public class RokKierunek implements java.io.Serializable {
     private Integer semestr;
     private Integer grupaDziekan;
     private Integer grupaLab;
-    private Set<Przedmioty> przedmioties = new HashSet<>(0);
-    private Set<Plany> planies = new HashSet<>(0);
+    private Plany plany;
 
     public RokKierunek() {
     }
@@ -39,7 +39,7 @@ public class RokKierunek implements java.io.Serializable {
         this.kierunek = kierunek;
     }
 
-    public RokKierunek( String rok_akademicki, Integer rok, String kierunek, String specjalizacja, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
+    public RokKierunek(String rok_akademicki, Integer rok, String kierunek, String specjalizacja, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
         this.rok_akademicki = rok_akademicki;
         this.rok = rok;
         this.kierunek = kierunek;
@@ -133,22 +133,14 @@ public class RokKierunek implements java.io.Serializable {
         this.grupaLab = grupaLab;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rokKierunek")
-    public Set<Przedmioty> getPrzedmioties() {
-        return this.przedmioties;
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL) 
+    @JoinColumn(name = "plan_id")
+    public Plany getPlany() {
+        return this.plany;
     }
 
-    public void setPrzedmioties(Set<Przedmioty> przedmioties) {
-        this.przedmioties = przedmioties;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rokKierunek")
-    public Set<Plany> getPlanies() {
-        return this.planies;
-    }
-
-    public void setPlanies(Set<Plany> planies) {
-        this.planies = planies;
+    public void setPlany(Plany planies) {
+        this.plany = planies;
     }
 
     @Override

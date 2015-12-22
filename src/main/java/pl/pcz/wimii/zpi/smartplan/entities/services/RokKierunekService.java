@@ -6,12 +6,13 @@
 package pl.pcz.wimii.zpi.smartplan.entities.services;
 
 import java.util.List;
-import static javax.ws.rs.core.Response.status;
-import static jdk.nashorn.internal.objects.NativeJava.type;
+import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import pl.pcz.wimii.zpi.smartplan.entities.Plany;
 import pl.pcz.wimii.zpi.smartplan.entities.RokKierunek;
+import pl.pcz.wimii.zpi.smartplan.entities.Zajecia;
 import pl.pcz.wimii.zpi.smartplan.entities.configuration.HibernateUtil;
 
 /**
@@ -22,7 +23,7 @@ public class RokKierunekService {
 
     public static List<RokKierunek> getRokKierunek(String rok_akademicki, Integer rok, String kierunek, String spec, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         Criteria c = session.createCriteria(RokKierunek.class);
         c.add(Restrictions.eq("rok_akademicki", rok_akademicki));
@@ -47,16 +48,36 @@ public class RokKierunekService {
         return result;
     }
 
-    public static RokKierunek addRokKierunek(String rok_akademicki, Integer rok, String kierunek, String spec, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
+    public static RokKierunek addRokKierunek(Plany plan, String rok_akademicki, Integer rok, String kierunek, String spec, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
         RokKierunek rokKierunek = new RokKierunek(rok_akademicki, rok, kierunek, spec, stopien, semestr, grupaDziekan, grupaLab);
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-
+        rokKierunek.setPlany(plan);
         Integer id = (Integer) session.save(rokKierunek);
-
         session.getTransaction().commit();
-        session.beginTransaction();
-        return (RokKierunek) session.get(RokKierunek.class, id);
+        return rokKierunek;
     }
 
+    public static RokKierunek getRokKierunekById(int id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        RokKierunek rokKierunek = (RokKierunek) session.get(RokKierunek.class, id);
+        session.getTransaction().commit();
+        return rokKierunek;
+    }
+    
+    public static RokKierunek clearRokKierunek(RokKierunek rokKierunek) {
+        
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.refresh(rokKierunek);
+        Set<Zajecia> zajecia = rokKierunek.getPlany().getZajecias();
+        for (Zajecia zaj:zajecia) {
+            session.delete(zaj);
+        }
+        zajecia.clear();
+        session.getTransaction().commit();
+        return rokKierunek;
+    }
+    
 }

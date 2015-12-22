@@ -20,7 +20,7 @@ public class GodzinyService {
     
     public static List<Godziny> getGodziny() {
         if (godziny == null) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         godziny = session.createCriteria(Godziny.class).list();
         session.getTransaction().commit();
@@ -28,12 +28,9 @@ public class GodzinyService {
         return godziny;
     }
     public static void addGodziny(Godziny godz) {
-        
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         session.save(godz);
         session.getTransaction().commit();
-        
-        
     }
 }

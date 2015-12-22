@@ -2,7 +2,7 @@ package pl.pcz.wimii.zpi.smartplan.entities;
 // Generated 2015-12-07 21:04:58 by Hibernate Tools 4.3.1
 
 
-import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -26,26 +27,21 @@ public class Przedmioty  implements java.io.Serializable {
 
 
      private Integer id;
-     private RokKierunek rokKierunek;
      private String nazwa;
-     private Set<Zajecia> zajecias = new HashSet<>(0);
+     private Plany plan;
 
     public Przedmioty() {
     }
 
 	
-    public Przedmioty(RokKierunek rokKierunek, String nazwa) {
-        this.rokKierunek = rokKierunek;
+    public Przedmioty( String nazwa) {
         this.nazwa = nazwa;
     }
-    public Przedmioty(RokKierunek rokKierunek, String nazwa, Set<Zajecia> zajecias) {
-       this.rokKierunek = rokKierunek;
+    public Przedmioty( String nazwa, Set<Zajecia> zajecias) {
        this.nazwa = nazwa;
-       this.zajecias = zajecias;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
-
     
     @Column(name="id", unique=true, nullable=false)
     public Integer getId() {
@@ -56,17 +52,6 @@ public class Przedmioty  implements java.io.Serializable {
         this.id = id;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="rok_kierunek_id", nullable=false)
-    public RokKierunek getRokKierunek() {
-        return this.rokKierunek;
-    }
-    
-    public void setRokKierunek(RokKierunek rokKierunek) {
-        this.rokKierunek = rokKierunek;
-    }
-
-    
     @Column(name="nazwa", nullable=false, length=45)
     public String getNazwa() {
         return this.nazwa;
@@ -75,17 +60,50 @@ public class Przedmioty  implements java.io.Serializable {
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="przedmioty" )
-    public Set<Zajecia> getZajecias() {
-        return this.zajecias;
-    }
-    
-    public void setZajecias(Set<Zajecia> zajecias) {
-        this.zajecias = zajecias;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "plany_id")
+    public Plany getPlan() {
+        return plan;
     }
 
+    public void setPlan(Plany plan) {
+        this.plan = plan;
+    }
 
+
+    @Override
+    public String toString() {
+        return "Przedmioty{" + "id=" + id + ", nazwa=" + nazwa;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.nazwa);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Przedmioty other = (Przedmioty) obj;
+        if (!Objects.equals(this.nazwa, other.nazwa)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
 
 
 }

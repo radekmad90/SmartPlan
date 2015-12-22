@@ -2,6 +2,7 @@ package pl.pcz.wimii.zpi.smartplan.entities;
 // Generated 2015-12-07 21:04:58 by Hibernate Tools 4.3.1
 
 
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +20,7 @@ import javax.persistence.Table;
 @Table(name="zajecia"
     ,catalog="smartplan"
 )
-public class Zajecia  implements java.io.Serializable {
+public class Zajecia  implements java.io.Serializable, Comparable<Zajecia> {
 
 
      private Integer id;
@@ -60,7 +61,7 @@ public class Zajecia  implements java.io.Serializable {
         this.id = id;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="godziny_id", nullable=false)
     public Godziny getGodziny() {
         return this.godziny;
@@ -70,7 +71,7 @@ public class Zajecia  implements java.io.Serializable {
         this.godziny = godziny;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="plany_id", nullable=false)
     public Plany getPlany() {
         return this.plany;
@@ -80,7 +81,7 @@ public class Zajecia  implements java.io.Serializable {
         this.plany = plany;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="przedmioty_id")
     public Przedmioty getPrzedmioty() {
         return this.przedmioty;
@@ -90,7 +91,7 @@ public class Zajecia  implements java.io.Serializable {
         this.przedmioty = przedmioty;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="zjazdy_id", nullable=false)
     public Zjazdy getZjazdy() {
         return this.zjazdy;
@@ -120,8 +121,60 @@ public class Zajecia  implements java.io.Serializable {
         this.sala = sala;
     }
 
+    @Override
+    public String toString() {
+        return "Zajecia{" + "id=" + id + ", godziny=" + godziny + ", plany=" + plany + ", przedmioty=" + przedmioty + ", zjazdy=" + zjazdy + ", prowadzacyNazw=" + prowadzacyNazw + ", sala=" + sala + '}';
+    }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 61 * hash + Objects.hashCode(this.godziny);
+        hash = 61 * hash + Objects.hashCode(this.plany);
+        hash = 61 * hash + Objects.hashCode(this.przedmioty);
+        hash = 61 * hash + Objects.hashCode(this.zjazdy);
+        hash = 61 * hash + Objects.hashCode(this.prowadzacyNazw);
+        hash = 61 * hash + Objects.hashCode(this.sala);
+        return hash;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Zajecia other = (Zajecia) obj;
+        if (!Objects.equals(this.prowadzacyNazw, other.prowadzacyNazw)) {
+            return false;
+        }
+        if (!Objects.equals(this.sala, other.sala)) {
+            return false;
+        }
+        if (!Objects.equals(this.godziny, other.godziny)) {
+            return false;
+        }
+        if (!Objects.equals(this.plany, other.plany)) {
+            return false;
+        }
+        if (!Objects.equals(this.przedmioty, other.przedmioty)) {
+            return false;
+        }
+        if (!Objects.equals(this.zjazdy, other.zjazdy)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int compareTo(Zajecia o) {
+        return this.godziny.getId().compareTo(o.getGodziny().getId());
+    }
 
 }
 

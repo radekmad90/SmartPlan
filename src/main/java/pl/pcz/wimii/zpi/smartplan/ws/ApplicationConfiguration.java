@@ -11,7 +11,7 @@ public class ApplicationConfiguration extends Application {
 	private Set<Class<?>> empty = new HashSet<Class<?>>();
 	public ApplicationConfiguration(){
 
-	     singletons.add(new StudentResource());
+	     singletons.add(new RokKierunekResource());
 
 	}
 	

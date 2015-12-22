@@ -1,15 +1,12 @@
 package pl.pcz.wimii.zpi.smartplan.entities;
 // Generated 2015-12-07 21:04:58 by Hibernate Tools 4.3.1
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -19,11 +16,10 @@ import javax.persistence.Table;
 //@XmlRootElement(name = "godziny")
 @Table(name = "godziny", catalog = "smartplan"
 )
-public class Godziny implements java.io.Serializable {
+public class Godziny implements java.io.Serializable, Comparable<Godziny> {
 
     private Integer id;
     private String godz;
-    private Set<Zajecia> zajecias = new HashSet<>(0);
 
     public Godziny() {
     }
@@ -53,13 +49,39 @@ public class Godziny implements java.io.Serializable {
         this.godz = godz;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "godziny")
-    public Set<Zajecia> getZajecias() {
-        return this.zajecias;
+    @Override
+    public String toString() {
+        return "Godziny{" + "id=" + id + ", godz=" + godz + '}';
     }
 
-    public void setZajecias(Set<Zajecia> zajecias) {
-        this.zajecias = zajecias;
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.godz);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Godziny other = (Godziny) obj;
+        if (!Objects.equals(this.godz, other.godz)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int compareTo(Godziny o) {
+        return this.getId().compareTo(o.getId());
     }
 
 }
