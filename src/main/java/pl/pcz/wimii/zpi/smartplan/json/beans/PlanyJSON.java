@@ -16,8 +16,6 @@ public class PlanyJSON implements Serializable {
      private Date dataPublikacji;
      private Date dataDodania;
      private int widoczny;
-     private Integer rok;
-     private String kierunek;
      private Set<ZjazdyJSON> zjazdy = new HashSet<>(0);
 
     public Integer getId() {
@@ -60,21 +58,6 @@ public class PlanyJSON implements Serializable {
         this.widoczny = widoczny;
     }
 
-    public Integer getRok() {
-        return rok;
-    }
-
-    public void setRok(Integer rok) {
-        this.rok = rok;
-    }
-
-    public String getKierunek() {
-        return kierunek;
-    }
-
-    public void setKierunek(String kierunek) {
-        this.kierunek = kierunek;
-    }
 
     public Set<ZjazdyJSON> getZjazdy() {
         return zjazdy;

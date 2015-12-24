@@ -1,7 +1,5 @@
 package pl.pcz.wimii.zpi.smartplan.json.beans;
 
-import pl.pcz.wimii.zpi.smartplan.json.beans.GodzinyJSON;
-import pl.pcz.wimii.zpi.smartplan.json.beans.PrzedmiotyJSON;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 

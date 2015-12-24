@@ -9,7 +9,6 @@ public class RokKierunekWrapper {
 
     private PlanyJSON plan;
     private String rok_akademicki;
-    private Integer rok;
     private String kierunek;
     private String specjalizacja;
     private Integer stopien;
@@ -31,14 +30,6 @@ public class RokKierunekWrapper {
 
     public void setRok_akademicki(String rok_akademicki) {
         this.rok_akademicki = rok_akademicki;
-    }
-
-    public Integer getRok() {
-        return rok;
-    }
-
-    public void setRok(Integer rok) {
-        this.rok = rok;
     }
 
     public String getKierunek() {

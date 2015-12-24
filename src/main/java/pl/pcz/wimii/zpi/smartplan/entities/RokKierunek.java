@@ -5,6 +5,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
@@ -21,7 +23,6 @@ public class RokKierunek implements java.io.Serializable {
 
     private int id;
     private String rok_akademicki;
-    private Integer rok;
     private String kierunek;
     private String specjalizacja;
     private Integer stopien;
@@ -33,15 +34,13 @@ public class RokKierunek implements java.io.Serializable {
     public RokKierunek() {
     }
 
-    public RokKierunek(int id, Integer rok, String kierunek) {
+    public RokKierunek(int id, String kierunek) {
         this.id = id;
-        this.rok = rok;
         this.kierunek = kierunek;
     }
 
-    public RokKierunek(String rok_akademicki, Integer rok, String kierunek, String specjalizacja, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
+    public RokKierunek(String rok_akademicki, String kierunek, String specjalizacja, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
         this.rok_akademicki = rok_akademicki;
-        this.rok = rok;
         this.kierunek = kierunek;
         this.specjalizacja = specjalizacja;
         this.stopien = stopien;
@@ -51,7 +50,8 @@ public class RokKierunek implements java.io.Serializable {
     }
 
     @Id
-
+    
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     public int getId() {
         return this.id;
@@ -73,15 +73,6 @@ public class RokKierunek implements java.io.Serializable {
 
     public void setRok_akademicki(String rok_akademicki) {
         this.rok_akademicki = rok_akademicki;
-    }
-
-    @Column(name = "rok", nullable = false, length = 45)
-    public Integer getRok() {
-        return rok;
-    }
-
-    public void setRok(Integer rok) {
-        this.rok = rok;
     }
 
     public void setKierunek(String kierunek) {
@@ -145,7 +136,7 @@ public class RokKierunek implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return "RokKierunek{" + "id=" + id + ", rok_akademicki=" + rok_akademicki + ", rok=" + rok + ", kierunek=" + kierunek + ", specjalizacja=" + specjalizacja + ", stopien=" + stopien + ", semestr=" + semestr + ", grupaDziekan=" + grupaDziekan + ", grupaLab=" + grupaLab + '}';
+        return "RokKierunek{" + "id=" + id + ", rok_akademicki=" + rok_akademicki + ", kierunek=" + kierunek + ", specjalizacja=" + specjalizacja + ", stopien=" + stopien + ", semestr=" + semestr + ", grupaDziekan=" + grupaDziekan + ", grupaLab=" + grupaLab + '}';
     }
 
 }

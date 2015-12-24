@@ -1,14 +1,10 @@
 package pl.pcz.wimii.zpi.smartplan.parser;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
@@ -23,18 +19,16 @@ import pl.pcz.wimii.zpi.smartplan.entities.RokKierunek;
 import pl.pcz.wimii.zpi.smartplan.entities.Zajecia;
 import pl.pcz.wimii.zpi.smartplan.entities.Zjazdy;
 import pl.pcz.wimii.zpi.smartplan.entities.services.GodzinyService;
-import pl.pcz.wimii.zpi.smartplan.entities.services.PlanyService;
 import pl.pcz.wimii.zpi.smartplan.entities.services.PrzedmiotyService;
 import pl.pcz.wimii.zpi.smartplan.entities.services.RokKierunekService;
 import pl.pcz.wimii.zpi.smartplan.entities.services.ZajeciaService;
 import pl.pcz.wimii.zpi.smartplan.entities.services.ZjazdyService;
 
 public class Parser {
-    //TODO ZANIM DODASZ PLAN SPRAWDZ CZY TAKI JUŻ JEST, UPDATE NA WSZYSTKICH POPRZEDNICH PLANACH NA VISIBLE = 0
 
     private Logger logger = Logger.getLogger(this.getClass());
 
-    public void parse(String url, String rok_akademicki, Integer rok, String kierunek, String spec, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
+    public void parse(String url, String rok_akademicki, String kierunek, String spec, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
 
         Document doc = null;
         String planName = null;
@@ -59,12 +53,12 @@ public class Parser {
             break;
         }
 
-        List<RokKierunek> rokKierunekList = RokKierunekService.getRokKierunek(rok_akademicki, rok, kierunek, spec, stopien, semestr, grupaDziekan, grupaLab);
+        List<RokKierunek> rokKierunekList = RokKierunekService.getRokKierunekAndZajecia(rok_akademicki, kierunek, spec, stopien, semestr, grupaDziekan, grupaLab);
         RokKierunek rokKierunek = null;
 
         if (rokKierunekList == null || rokKierunekList.isEmpty()) {
-            Plany plan = new Plany(spec, publicationDate.getTime(), Calendar.getInstance().getTime(), 1, rok, kierunek);
-            rokKierunek = RokKierunekService.addRokKierunek(plan, rok_akademicki, rok, kierunek, spec, stopien, semestr, grupaDziekan, grupaLab);
+            Plany plan = new Plany(planName, publicationDate.getTime(), Calendar.getInstance().getTime(), 1);
+            rokKierunek = RokKierunekService.addRokKierunek(plan, rok_akademicki, kierunek, spec, stopien, semestr, grupaDziekan, grupaLab);
         } else {
             logger.info("to update!");
             rokKierunek = rokKierunekList.get(0);
@@ -123,7 +117,7 @@ public class Parser {
                 for (int j = 1; j < zajeciaZGodzinami.size(); j++) {
                     List<String> daneZajec = Arrays.asList(zajeciaZGodzinami.get(j).html().split("<br>"));
                     if (daneZajec.get(0).equals("&nbsp;")) {
-                        daneZajec.set(0, "Okienko");
+                        daneZajec.set(0, " ");
                     }
                     Zajecia zajecie = new Zajecia();
                     zajecie.setGodziny(godzina);

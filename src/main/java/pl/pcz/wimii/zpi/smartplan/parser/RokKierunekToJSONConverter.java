@@ -35,7 +35,6 @@ public class RokKierunekToJSONConverter {
         wrapper.setGrupaDziekan(rokKierunek.getGrupaDziekan());
         wrapper.setGrupaLab(rokKierunek.getGrupaLab());
         wrapper.setKierunek(rokKierunek.getKierunek());
-        wrapper.setRok(rokKierunek.getRok());
         wrapper.setRok_akademicki(rokKierunek.getRok_akademicki());
         wrapper.setSemestr(rokKierunek.getSemestr());
         wrapper.setSpecjalizacja(rokKierunek.getSpecjalizacja());
@@ -47,9 +46,7 @@ public class RokKierunekToJSONConverter {
         planJSON.setDataDodania(plan.getDataDodania());
         planJSON.setDataPublikacji(plan.getDataPublikacji());
         planJSON.setId(plan.getId());
-        planJSON.setKierunek(plan.getKierunek());
         planJSON.setPlanNazw(plan.getPlanNazw());
-        planJSON.setRok(plan.getRok());
         planJSON.setWidoczny(plan.getWidoczny());
         
         Set<Zjazdy> zjazdy = new TreeSet<>();

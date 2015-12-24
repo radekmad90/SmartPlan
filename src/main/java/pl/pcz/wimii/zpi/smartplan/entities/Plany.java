@@ -1,10 +1,8 @@
 package pl.pcz.wimii.zpi.smartplan.entities;
 // Generated 2015-12-07 21:04:58 by Hibernate Tools 4.3.1
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -33,8 +31,6 @@ public class Plany implements java.io.Serializable, Comparable<Plany> {
     private Date dataPublikacji;
     private Date dataDodania;
     private int widoczny;
-    private Integer rok;
-    private String kierunek;
     private Set<Zajecia> zajecias = new HashSet<>(0);
     private Set<Przedmioty> przedmioties = new HashSet<>(0);
 
@@ -42,17 +38,14 @@ public class Plany implements java.io.Serializable, Comparable<Plany> {
     }
 
     public Plany(int widoczny) {
-        this.rokKierunek = rokKierunek;
         this.widoczny = widoczny;
     }
 
-    public Plany( String planNazw, Date dataPublikacji, Date dataDodania, int widoczny, Integer rok, String kierunek) {
+    public Plany( String planNazw, Date dataPublikacji, Date dataDodania, int widoczny) {
         this.planNazw = planNazw;
         this.dataPublikacji = dataPublikacji;
         this.dataDodania = dataDodania;
         this.widoczny = widoczny;
-        this.rok = rok;
-        this.kierunek = kierunek;
     }
 
     @Id
@@ -105,25 +98,7 @@ public class Plany implements java.io.Serializable, Comparable<Plany> {
         this.widoczny = widoczny;
     }
 
-    @Column(name = "rok")
-    public Integer getRok() {
-        return this.rok;
-    }
-
-    public void setRok(Integer rok) {
-        this.rok = rok;
-    }
-
-    @Column(name = "kierunek", length = 45)
-    public String getKierunek() {
-        return this.kierunek;
-    }
-
-    public void setKierunek(String kierunek) {
-        this.kierunek = kierunek;
-    }
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "plany")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "plany")
     public Set<Zajecia> getZajecias() {
         return this.zajecias;
     }
@@ -131,7 +106,7 @@ public class Plany implements java.io.Serializable, Comparable<Plany> {
     public void setZajecias(Set<Zajecia> zajecias) {
         this.zajecias = zajecias;
     }
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "plan")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "plan")
     public Set<Przedmioty> getPrzedmioties() {
         return przedmioties;
     }
@@ -153,8 +128,6 @@ public class Plany implements java.io.Serializable, Comparable<Plany> {
         hash = 13 * hash + Objects.hashCode(this.dataPublikacji);
         hash = 13 * hash + Objects.hashCode(this.dataDodania);
         hash = 13 * hash + this.widoczny;
-        hash = 13 * hash + Objects.hashCode(this.rok);
-        hash = 13 * hash + Objects.hashCode(this.kierunek);
         return hash;
     }
 
@@ -176,9 +149,6 @@ public class Plany implements java.io.Serializable, Comparable<Plany> {
         if (!Objects.equals(this.planNazw, other.planNazw)) {
             return false;
         }
-        if (!Objects.equals(this.kierunek, other.kierunek)) {
-            return false;
-        }
         if (!Objects.equals(this.rokKierunek, other.rokKierunek)) {
             return false;
         }
@@ -186,9 +156,6 @@ public class Plany implements java.io.Serializable, Comparable<Plany> {
             return false;
         }
         if (!Objects.equals(this.dataDodania, other.dataDodania)) {
-            return false;
-        }
-        if (!Objects.equals(this.rok, other.rok)) {
             return false;
         }
         return true;
