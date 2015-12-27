@@ -5,7 +5,7 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://vps222187.ovh.net:3306/smartplan?zeroDateTimeBehavior=convertToNull</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/smartplan?zeroDateTimeBehavior=convertToNull</property>
         <property name="hibernate.connection.username">smartplan</property>
         <property name="hibernate.connection.password">smartplanDBpass</property>
         <property name="hibernate.connection.CharSet">utf8</property>

@@ -25,7 +25,7 @@ public class RokKierunekResource {
 
     @GET
     @Path("rokKierunek/{id}")
-    @Produces("application/json")
+    @Produces("application/json; charset=UTF-8")
     public Response getRokKierunek(@PathParam("id") Integer id) {
 //        Parser parser = new Parser();
 //        parser.parse("http://wimii.pcz.pl/download/plan/studia_niestacjonarne/o7f.html","2015/2016" , "Informatyka", "", 1, 3,  1, null);
@@ -38,7 +38,7 @@ public class RokKierunekResource {
 
     @GET
     @Path("rokKierunek")
-    @Produces("application/json")
+    @Produces("application/json; charset=UTF-8")
     public Response getRokKierunekList() {
         RokKierunekListWrapper wrapper = new RokKierunekListWrapper();
         List<RokKierunek> rokKierList = RokKierunekService.getRokKierunekList();
