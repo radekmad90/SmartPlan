@@ -25,6 +25,11 @@
 	<listener>
 		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
 	</listener>
+        <listener>
+	<listener-class>
+             pl.pcz.wimii.zpi.smartplan.utils.InitializationListener
+        </listener-class>
+   </listener>
 	<!-- <login-config>
 		<auth-method>FORM</auth-method>
 		<realm-name>form-realm</realm-name>
