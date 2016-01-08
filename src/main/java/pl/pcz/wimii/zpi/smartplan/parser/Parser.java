@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
+import net.sf.ehcache.Cache;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -28,8 +29,8 @@ public class Parser {
 
     private Logger logger = Logger.getLogger(this.getClass());
 
-    public void parse(String url, String rok_akademicki, String kierunek, String spec, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
-
+    public void parse(Cache cache, String url, String rok_akademicki, String kierunek, String spec, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
+        cache.remove(Integer.MAX_VALUE);
         Document doc = null;
         String planName = null;
         Calendar publicationDate = null;
@@ -62,12 +63,10 @@ public class Parser {
         } else {
             logger.info("to update!");
             rokKierunek = rokKierunekList.get(0);
-            RokKierunekService.clearRokKierunek(rokKierunek);
-            try {
 
-                Thread.sleep(30000);
-            } catch (Exception e) {
-            }
+            RokKierunekService.clearRokKierunek(rokKierunek);
+
+            cache.remove(rokKierunek.getId());
         }
 
         List<Godziny> godziny = GodzinyService.getGodziny();

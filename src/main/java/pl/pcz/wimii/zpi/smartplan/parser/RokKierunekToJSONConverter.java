@@ -5,7 +5,9 @@
  */
 package pl.pcz.wimii.zpi.smartplan.parser;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -21,6 +23,8 @@ import pl.pcz.wimii.zpi.smartplan.json.beans.PrzedmiotyJSON;
 import pl.pcz.wimii.zpi.smartplan.ws.RokKierunekWrapper;
 import pl.pcz.wimii.zpi.smartplan.json.beans.ZajeciaJSON;
 import pl.pcz.wimii.zpi.smartplan.json.beans.ZjazdyJSON;
+import pl.pcz.wimii.zpi.smartplan.utils.DateUtil;
+import pl.pcz.wimii.zpi.smartplan.utils.ZjazdIData;
 
 /**
  *
@@ -29,7 +33,8 @@ import pl.pcz.wimii.zpi.smartplan.json.beans.ZjazdyJSON;
 public class RokKierunekToJSONConverter {
 
     private final Logger logger = Logger.getLogger(this.getClass());
-    public  RokKierunekWrapper convert(RokKierunek rokKierunek) {
+
+    public RokKierunekWrapper convert(RokKierunek rokKierunek) {
         logger.info("convert");
         RokKierunekWrapper wrapper = new RokKierunekWrapper();
         wrapper.setGrupaDziekan(rokKierunek.getGrupaDziekan());
@@ -39,8 +44,7 @@ public class RokKierunekToJSONConverter {
         wrapper.setSemestr(rokKierunek.getSemestr());
         wrapper.setSpecjalizacja(rokKierunek.getSpecjalizacja());
         wrapper.setStopien(rokKierunek.getStopien());
-        
-        
+
         PlanyJSON planJSON = new PlanyJSON();
         Plany plan = rokKierunek.getPlany();
         planJSON.setDataDodania(plan.getDataDodania());
@@ -48,27 +52,41 @@ public class RokKierunekToJSONConverter {
         planJSON.setId(plan.getId());
         planJSON.setPlanNazw(plan.getPlanNazw());
         planJSON.setWidoczny(plan.getWidoczny());
-        
+
         Set<Zjazdy> zjazdy = new TreeSet<>();
         for (Zajecia zaj : plan.getZajecias()) {
             logger.info("petla zaj ecia");
             zjazdy.add(zaj.getZjazdy());
         }
-        
+
         Set<ZjazdyJSON> zjazdyJSON = new TreeSet<>();
-        for(Zjazdy zjazd : zjazdy) {
+        List<ZjazdIData> daty = new ArrayList<>();
+        for (Zjazdy zjazd : zjazdy) {
             logger.info("petla zjazdy");
             ZjazdyJSON zjazdJSON = new ZjazdyJSON();
+            zjazdJSON.setActive(Boolean.FALSE);
             zjazdJSON.setData(zjazd.getData());
+            ZjazdIData zjidata = new ZjazdIData(zjazd.getData(), zjazdJSON);
+            daty.add(zjidata);
             zjazdJSON.setId(zjazd.getId());
-            Set<Zajecia> zajecia = new TreeSet(plan.getZajecias().stream().filter(z-> z.getZjazdy().equals(zjazd)).collect(Collectors.toSet()));
-            List<ZajeciaJSON> zajeciaJSON = zajecia.stream().map(z -> new ZajeciaJSON(z.getId(),new GodzinyJSON(z.getGodziny().getGodz()),new PrzedmiotyJSON(z.getPrzedmioty().getNazwa()),z.getProwadzacyNazw(),z.getSala())).collect(Collectors.toList());
+            Set<Zajecia> zajecia = new TreeSet(plan.getZajecias().stream().filter(z -> z.getZjazdy().equals(zjazd)).collect(Collectors.toSet()));
+            List<ZajeciaJSON> zajeciaJSON = zajecia.stream().map(z -> new ZajeciaJSON(z.getId(), new GodzinyJSON(z.getGodziny().getGodz()), new PrzedmiotyJSON(z.getPrzedmioty().getNazwa()), z.getProwadzacyNazw(), z.getSala())).collect(Collectors.toList());
             zjazdJSON.setZajecia(zajeciaJSON);
             zjazdyJSON.add(zjazdJSON);
         }
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE,0);
+        cal.set(Calendar.SECOND,0);
+        cal.setTimeInMillis(cal.getTimeInMillis() - 86400000);
+        ZjazdyJSON zjazdNajblizszy = DateUtil.getDateNearest(daty, cal.getTime());
+        if (zjazdNajblizszy != null) {
+            zjazdNajblizszy.setActive(Boolean.TRUE);
+        }
         planJSON.setZjazdy(zjazdyJSON);
-        
+
         wrapper.setPlan(planJSON);
         return wrapper;
     }
+
 }
