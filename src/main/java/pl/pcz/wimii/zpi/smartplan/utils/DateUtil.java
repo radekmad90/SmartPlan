@@ -19,6 +19,7 @@ public class DateUtil {
     public static ZjazdyJSON getDateNearest(List<ZjazdIData> dates, Date targetDate) {
         
         ZjazdIData zjazdiData = new ZjazdIData(targetDate, null);
+        dates.add(zjazdiData);
         return new TreeSet<>(dates).higher(zjazdiData).getZjazd();
     }
 }
