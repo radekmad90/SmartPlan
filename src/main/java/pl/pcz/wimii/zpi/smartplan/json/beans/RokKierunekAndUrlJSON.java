@@ -21,7 +21,8 @@ public class RokKierunekAndUrlJSON implements Serializable {
     private Integer semestr;
     private Integer grupaDziekan;
     private Integer grupaLab;
-    
+    private Integer idRokKierunek;
+
     public String getUrl() {
         return url;
     }
@@ -37,7 +38,6 @@ public class RokKierunekAndUrlJSON implements Serializable {
     public void setRokAkademicki(String rokAkademicki) {
         this.rokAkademicki = rokAkademicki;
     }
-
 
     public String getKierunek() {
         return kierunek;
@@ -85,6 +85,14 @@ public class RokKierunekAndUrlJSON implements Serializable {
 
     public void setGrupaLab(Integer grupaLab) {
         this.grupaLab = grupaLab;
+    }
+
+    public Integer getIdRokKierunek() {
+        return idRokKierunek;
+    }
+
+    public void setIdRokKierunek(Integer idRokKierunek) {
+        this.idRokKierunek = idRokKierunek;
     }
 
 }

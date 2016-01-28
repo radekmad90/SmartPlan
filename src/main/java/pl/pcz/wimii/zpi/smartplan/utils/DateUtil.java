@@ -20,6 +20,13 @@ public class DateUtil {
         
         ZjazdIData zjazdiData = new ZjazdIData(targetDate, null);
         dates.add(zjazdiData);
-        return new TreeSet<>(dates).higher(zjazdiData).getZjazd();
+        TreeSet<ZjazdIData> treeSet = new TreeSet<>(dates);
+        ZjazdIData zjazdTmp = treeSet.higher(zjazdiData);
+        
+        if (zjazdTmp == zjazdiData || zjazdTmp == null) {
+            zjazdTmp = treeSet.lower(zjazdiData);
+            
+        }
+        return zjazdTmp.getZjazd();
     }
 }

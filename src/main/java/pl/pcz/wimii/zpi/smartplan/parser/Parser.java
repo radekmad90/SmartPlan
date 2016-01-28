@@ -29,7 +29,7 @@ public class Parser {
 
     private Logger logger = Logger.getLogger(this.getClass());
 
-    public void parse(Cache cache, String url, String rok_akademicki, String kierunek, String spec, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
+    public void parse(Cache cache, String url, String rok_akademicki, String kierunek, String spec, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab, Integer idRokKierunek) {
         cache.remove(Integer.MAX_VALUE);
         Document doc = null;
         String planName = null;
@@ -53,17 +53,24 @@ public class Parser {
             publicationDate = ParserUtils.getDateFromString(splitedFormatted.get(1));
             break;
         }
+        List<RokKierunek> rokKierunekList;
+        if (idRokKierunek == null || idRokKierunek.equals(0)) {
+            rokKierunekList = RokKierunekService.getRokKierunekAndZajecia(rok_akademicki, kierunek, spec, stopien, semestr, grupaDziekan, grupaLab);
+        } else {
+            rokKierunekList = RokKierunekService.getRokKierunekById(idRokKierunek);
+        }
 
-        List<RokKierunek> rokKierunekList = RokKierunekService.getRokKierunekAndZajecia(rok_akademicki, kierunek, spec, stopien, semestr, grupaDziekan, grupaLab);
         RokKierunek rokKierunek = null;
 
         if (rokKierunekList == null || rokKierunekList.isEmpty()) {
+            logger.info("Mamy nowy plan");
             Plany plan = new Plany(planName, publicationDate.getTime(), Calendar.getInstance().getTime(), 1);
             rokKierunek = RokKierunekService.addRokKierunek(plan, rok_akademicki, kierunek, spec, stopien, semestr, grupaDziekan, grupaLab);
+            logger.info("NOWY PLAN: " + rokKierunek.toString());
         } else {
             logger.info("to update!");
             rokKierunek = rokKierunekList.get(0);
-
+            logger.info("UPDATE: " + rokKierunek.toString());
             RokKierunekService.clearRokKierunek(rokKierunek);
 
             cache.remove(rokKierunek.getId());
@@ -98,16 +105,6 @@ public class Parser {
                 // od jedynki petla bo pierwszym wierszem w tabelce sa terminy
                 // zjazdow
             }
-//                    for (int i = 1; i < trs.size(); i++) {
-//                        List<Element> zajeciaZGodzinami = trs.get(i).getElementsByTag("td");
-//                        String[] numerGodzinyLekcyjnejIGodziny = zajeciaZGodzinami.get(0).html().split("<br>");
-//                        String godzina = numerGodzinyLekcyjnejIGodziny[1];
-//                        // TODO
-//                        Godziny godz = new Godziny(godzina);
-//                        GodzinyService.addGodziny(godz);
-//        
-//                    }
-
             List<Zajecia> zajecia = new ArrayList<>();
             for (int i = 1; i < trs.size(); i++) {
                 List<Element> zajeciaZGodzinami = trs.get(i).getElementsByTag("td");

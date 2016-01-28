@@ -1,6 +1,7 @@
 package pl.pcz.wimii.zpi.smartplan.ws;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import javax.enterprise.context.ApplicationScoped;
@@ -38,19 +39,21 @@ public class RokKierunekResource {
     @Path("rokKierunek/{id}")
     @Produces("application/json; charset=UTF-8")
     public Response getRokKierunek(@PathParam("id") Integer id, @Context ServletContext servletContext) {
-        RokKierunekWrapper wrapper = null;
+        RokKierunek rokKierunek = null;
         Cache cache = (Cache) servletContext.getAttribute("rokKierunekCache");
         Element e = cache.get(id);
         if (e != null) {
-            wrapper = (RokKierunekWrapper) e.getObjectValue(); // get object from cache
+            rokKierunek = (RokKierunek) e.getObjectValue();
         } else {
-            RokKierunek rokKierunek = RokKierunekService.getRokKierunekById(id);
-            RokKierunekToJSONConverter conv = new RokKierunekToJSONConverter();
-            wrapper = conv.convert(rokKierunek);
-            Element resultCacheElement = new Element(id, wrapper);
+            List<RokKierunek> rokKierunekList = RokKierunekService.getRokKierunekById(id);
+            rokKierunek = rokKierunekList.get(0);
+            Element resultCacheElement = new Element(id, rokKierunek);
             cache.put(resultCacheElement);
         }
-        return Response.status(200).header("Access-Control-Allow-Origin", "*")
+        RokKierunekToJSONConverter conv = new RokKierunekToJSONConverter();
+        RokKierunekWrapper wrapper = conv.convert(rokKierunek);
+
+        return Response.status(200).header("Access-Control-Allow-Origin", "http://wimii.pl")
                 .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
                 .header("Access-Control-Allow-Credentials", "true")
                 .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
@@ -75,7 +78,7 @@ public class RokKierunekResource {
             Element resultCacheElement = new Element(Integer.MAX_VALUE, wrapper);
             cache.put(resultCacheElement);
         }
-        return Response.status(200).header("Access-Control-Allow-Origin", "*")
+        return Response.status(200).header("Access-Control-Allow-Origin", "http://wimii.pl")
                 .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
                 .header("Access-Control-Allow-Credentials", "true")
                 .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
@@ -93,14 +96,22 @@ public class RokKierunekResource {
             Parser parser = new Parser();
             logger.info(rokKierunekJSON.getUrl());
             logger.info(rokKierunekJSON.getRokAkademicki());
-            parser.parse(cache, rokKierunekJSON.getUrl().trim(), rokKierunekJSON.getRokAkademicki().trim(), rokKierunekJSON.getKierunek().trim(), rokKierunekJSON.getSpecjalizacja().trim(), rokKierunekJSON.getStopien(), rokKierunekJSON.getSemestr(), rokKierunekJSON.getGrupaDziekan(), rokKierunekJSON.getGrupaLab());
+            parser.parse(cache, rokKierunekJSON.getUrl() != null ? rokKierunekJSON.getUrl().trim() : null, 
+                    rokKierunekJSON.getRokAkademicki() != null ? rokKierunekJSON.getRokAkademicki().trim() : null, 
+                    rokKierunekJSON.getKierunek() != null ? rokKierunekJSON.getKierunek().trim() :  null, 
+                    rokKierunekJSON.getSpecjalizacja() != null ? rokKierunekJSON.getSpecjalizacja().trim() : null, 
+                    rokKierunekJSON.getStopien(), 
+                    rokKierunekJSON.getSemestr(), 
+                    rokKierunekJSON.getGrupaDziekan(), 
+                    rokKierunekJSON.getGrupaLab(), 
+                    rokKierunekJSON.getIdRokKierunek());
 
         } catch (Exception e) {
             logger.error(e.getCause() + " \nmessage " + e.getMessage());
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
-        return Response.status(200).header("Access-Control-Allow-Origin", "*")
+        return Response.status(201).header("Access-Control-Allow-Origin", "http://wimii.pl")
                 .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
                 .header("Access-Control-Allow-Credentials", "true")
                 .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")

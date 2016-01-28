@@ -14,7 +14,8 @@ public class ApplicationConfiguration extends Application {
 
         singletons.add(new RokKierunekResource());
         CorsFilter corsFilter = new CorsFilter();
-        corsFilter.getAllowedOrigins().add("*");
+        corsFilter.getAllowedOrigins().add("wimii.pl");
+        corsFilter.getAllowedOrigins().add("http://wimii.pl");
         singletons.add(corsFilter);
     }
 

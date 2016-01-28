@@ -153,7 +153,7 @@ public class RokKierunekJSON implements Serializable, Comparable<RokKierunekJSON
 
     @Override
     public int compareTo(RokKierunekJSON other) {
-        int i = CompareUtil.<String>cp(this.kierunek,other.getKierunek());
+        int  i = CompareUtil.<String>cp(this.kierunek,other.getKierunek());
         if (i != 0) {
             return i;
         }
