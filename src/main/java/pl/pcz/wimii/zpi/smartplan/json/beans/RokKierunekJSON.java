@@ -6,6 +6,7 @@
 package pl.pcz.wimii.zpi.smartplan.json.beans;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlRootElement;
 import pl.pcz.wimii.zpi.smartplan.utils.CompareUtil;
@@ -27,6 +28,7 @@ public class RokKierunekJSON implements Serializable, Comparable<RokKierunekJSON
     private Integer grupaLab;
     
     private String nazwa;
+    private Date dataPublikacji;
 
     public String getNazwa() {
         return nazwa;
@@ -100,6 +102,15 @@ public class RokKierunekJSON implements Serializable, Comparable<RokKierunekJSON
         this.grupaLab = grupaLab;
     }
 
+    public Date getDataPublikacji() {
+        return dataPublikacji;
+    }
+
+    public void setDataPublikacji(Date dataPublikacji) {
+        this.dataPublikacji = dataPublikacji;
+    }
+
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -148,7 +159,7 @@ public class RokKierunekJSON implements Serializable, Comparable<RokKierunekJSON
         if (!Objects.equals(this.grupaLab, other.grupaLab)) {
             return false;
         }
-        return true;
+        return Objects.equals(this.dataPublikacji, other.dataPublikacji);
     }
 
     @Override

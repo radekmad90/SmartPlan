@@ -71,7 +71,7 @@ public class Parser {
             logger.info("to update!");
             rokKierunek = rokKierunekList.get(0);
             logger.info("UPDATE: " + rokKierunek.toString());
-            RokKierunekService.clearRokKierunek(rokKierunek);
+            RokKierunekService.clearRokKierunek(rokKierunek, publicationDate.getTime());
 
             cache.remove(rokKierunek.getId());
         }

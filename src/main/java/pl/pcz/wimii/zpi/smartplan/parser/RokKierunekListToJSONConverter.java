@@ -5,6 +5,7 @@
  */
 package pl.pcz.wimii.zpi.smartplan.parser;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
@@ -31,6 +32,8 @@ public class RokKierunekListToJSONConverter {
             json.setSpecjalizacja(rokKier.getSpecjalizacja());
             json.setStopien(rokKier.getStopien());
             json.setNazwa(rokKier.getPlany().getPlanNazw());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            json.setDataPublikacji(rokKier.getPlany().getDataPublikacji());
             rokKierunekSet.add(json);
         }
         return rokKierunekSet;

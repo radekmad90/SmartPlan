@@ -5,8 +5,9 @@
  */
 package pl.pcz.wimii.zpi.smartplan.entities.services;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
@@ -92,11 +93,13 @@ public class RokKierunekService {
         return lista;
     }
 
-    public static RokKierunek clearRokKierunek(RokKierunek rokKierunek) {
+    public static RokKierunek clearRokKierunek(RokKierunek rokKierunek, Date publicationTime) {
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         session.refresh(rokKierunek);
+        rokKierunek.getPlany().setDataPublikacji(publicationTime);
+        rokKierunek.getPlany().setDataDodania(Calendar.getInstance().getTime());
         Set<Zajecia> zajecia = rokKierunek.getPlany().getZajecias();
         for (Zajecia zaj : zajecia) {
             session.delete(zaj);
