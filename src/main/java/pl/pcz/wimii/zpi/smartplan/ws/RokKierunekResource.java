@@ -47,6 +47,9 @@ public class RokKierunekResource {
         } else {
             List<RokKierunek> rokKierunekList = RokKierunekService.getRokKierunekById(id);
             rokKierunek = rokKierunekList.get(0);
+            if (rokKierunek.getWidoczny().equals("0")) {
+                return Response.status(404).build();
+            }
             Element resultCacheElement = new Element(id, rokKierunek);
             cache.put(resultCacheElement);
         }

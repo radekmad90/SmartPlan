@@ -4,10 +4,26 @@
     <session-factory >
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+        
+        <property name="hibernate.c3p0.min_size">2</property>
+        
+        <property name="hibernate.c3p0.max_size">10</property>
+        
+        <property name="hibernate.c3p0.timeout">100</property>
+        
+        <property name="hibernate.c3p0.max_statements">50</property>
+        
+        <property name="hibernate.c3p0.idle_test_period">1000</property>
+        
+        <property name="hibernate.c3p0.validate">true</property>
+        
+        <property name="hibernate.connection.provider_class">org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider</property>
+
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/smartplan?zeroDateTimeBehavior=convertToNull&autoReconnect=true</property>
-        <property name="hibernate.connection.username"></property>
-        <property name="hibernate.connection.password"></property>
+        <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/smartplan_db?zeroDateTimeBehavior=convertToNull</property>
+        <property name="hibernate.connection.username">smartplan_db</property>
+        <property name="hibernate.connection.password">smartplanDBpass</property>
         <property name="hibernate.connection.CharSet">utf8</property>
         <property name="hibernate.connection.characterEncoding">utf8</property>
         <property name="hibernate.connection.useUnicode">true</property>

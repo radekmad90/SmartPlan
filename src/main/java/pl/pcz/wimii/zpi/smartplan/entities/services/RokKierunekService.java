@@ -62,14 +62,16 @@ public class RokKierunekService {
     public static List<RokKierunek> getRokKierunekList() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        List<RokKierunek> result = session.createCriteria(RokKierunek.class).list();
-
+        Criteria c = session.createCriteria(RokKierunek.class);
+        c.add(Restrictions.eq("widoczny", 1));
+        
+        List<RokKierunek> result = c.list();
         session.getTransaction().commit();
         return result;
     }
 
     public static RokKierunek addRokKierunek(Plany plan, String rok_akademicki, String kierunek, String spec, Integer stopien, Integer semestr, Integer grupaDziekan, Integer grupaLab) {
-        RokKierunek rokKierunek = new RokKierunek(rok_akademicki, kierunek, spec, stopien, semestr, grupaDziekan, grupaLab);
+        RokKierunek rokKierunek = new RokKierunek(rok_akademicki, kierunek, spec, stopien, semestr, grupaDziekan, grupaLab, 1);
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         rokKierunek.setPlany(plan);

@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 //@XmlRootElement(name = "godziny")
-@Table(name = "godziny", catalog = "smartplan"
+@Table(name = "godziny", catalog = "smartplan_db"
 )
 public class Godziny implements java.io.Serializable, Comparable<Godziny> {
 

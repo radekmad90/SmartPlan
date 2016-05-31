@@ -21,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="przedmioty"
-    ,catalog="smartplan"
+    ,catalog="smartplan_db"
 )
 public class Przedmioty  implements java.io.Serializable {
 

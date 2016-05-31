@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="zajecia"
-    ,catalog="smartplan"
+    ,catalog="smartplan_db"
 )
 public class Zajecia  implements java.io.Serializable, Comparable<Zajecia> {
 

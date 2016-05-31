@@ -19,7 +19,7 @@ import org.apache.commons.lang3.time.DateUtils;
  */
 @Entity
 @Table(name="zjazdy"
-    ,catalog="smartplan"
+    ,catalog="smartplan_db"
 )
 public class Zjazdy  implements java.io.Serializable, Comparable<Object> {
 
